@@ -4,7 +4,7 @@
 # Copyright (C) Mineo Sudo
 # 
 ###############################################################################
-import win32gui,win32con,time
+import win32gui,win32con,time,sys
 
 class window_ope():
     '''
@@ -50,3 +50,12 @@ class window_ope():
         
     def window_close(self):
         win32gui.PostMessage(self.handle,win32con.WM_CLOSE,0,0)
+
+if __name__ == '__main__':
+    # time.sleep(20)
+    obj=window_ope()
+    obj.taisho_name=sys.argv[1]
+    # obj.taisho_name="Market Speed"
+    obj.get_handle()
+    obj.window_hyoji()
+    print(obj.taisho_name)
