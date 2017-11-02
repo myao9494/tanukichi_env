@@ -4,7 +4,7 @@
 #
 # Copyright (C) Mineo Sudo
 # PYTHONPATHに"%jupyterhome%\000_lib"を設定する
-# 
+#
 ###############################################################################
 import os, shutil
 
