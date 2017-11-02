@@ -1,4 +1,4 @@
-#買うんtダウンｋのう\\\\
+#カウントダウン機能を付けたい！
 # -*- coding: utf-8; py-indent-offset:4 -*-
 ###############################################################################
 #
@@ -17,7 +17,7 @@ winspeech.initialize_recognizer(winspeech.INPROC_RECOGNIZER)
 
 def callback1():
     hwnd = int(root.wm_frame(),0)
-    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0,0,0,0, 
+    win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0,0,0,0,
                           win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
 def callback2():
     hwnd = int(root.wm_frame(),0)
@@ -51,12 +51,12 @@ class remind():
         time.sleep(self.wait_time)
         self.say_message()
         self.msg_box()
-        
+
 #----------------以下は呼び出される関数--------------------------
     def say_message(self):
         winspeech.say(self.target_time)
         winspeech.say("予定は"+self.message+"です。場所は"+self.basho+"です")
-        
+
     def msg_box(self):
         la = Label(root, text=str(self.target_time)+"予定は"+self.message+"です。場所は"+self.basho+"です",
                    font=("",20),
