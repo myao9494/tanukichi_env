@@ -1,1 +1,0 @@
-java -jar %sikuli_home%\sikulix.jar -r run_jupyter.sikuli
