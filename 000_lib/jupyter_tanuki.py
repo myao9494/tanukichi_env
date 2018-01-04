@@ -21,17 +21,20 @@ class jupyter_tanuki():
         self.files = [f for f in os.listdir(self.file_path) if os.path.isfile(os.path.join(self.file_path, f))] #ファイル一覧を取得
         self.folders = [f for f in os.listdir(self.file_path) if os.path.isdir(os.path.join(self.file_path, f))] #フォルダ一覧を取得
                 
-    def add_file_no_folder(self, file_name): #フォルダを作らずにテンプレートファイrからファイルを作る
+    def add_file_no_folder(self, file_name):
+        '''
+        フォルダを作らずにテンプレートファイrからファイルを作る
+        '''
         try:
             self.file_name=file_name
-            self.t_path=os.path.join(os.environ["jupyter_home"],'991_template/template.ipynb')
+            self.t_path=os.path.join(os.environ["jupyter_home"],'tanukichi_env/991_template/template.ipynb')
             self.c_path= file_name + ".ipynb"
             self.markup_code="# [" + file_name + "](" + self.c_path + ")"
             shutil.copyfile(self.t_path, self.c_path)
             print("下記をコピペ、markdownのセルへ")
             print(self.markup_code)
         except:
-            print("Error! 既にファイルがないことを確認して下さい")
+            print("Error!テンプレートファイルの場所の変更がないか？または、同一ファイルがないか確認")
 
     def add_file(self, file_name): #引数のフォルダを作成し、引数のファイル名でフォルダ内にファイルを作成
         try:
