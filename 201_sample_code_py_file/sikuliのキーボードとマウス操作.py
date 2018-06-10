@@ -6,7 +6,7 @@ type("e",Key.WIN) #エクスプローラを起動
 type("some text" + Key.TAB + "more text" + Key.TAB + Key.ENTER)
 # or eqivalent
 type("some text\tmore text\n")
-
+'''
 PRINTSCREEN, PAUSE, CAPS_LOCK, SCROLL_LOCK, NUM_LOCK
 ENTER, TAB, ESC, BACKSPACE, DELETE, INSERT
 SPACE
@@ -16,3 +16,4 @@ Key.CAPS_LOCK, Key.NUM_LOCK,Key.SCROLL_LOCK
 NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9
 SEPARATOR, ADD, MINUS, MULTIPLY, DIVIDE
 ALT, CMD, CTRL, META, SHIFT, WIN
+'''
