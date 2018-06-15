@@ -1,0 +1,33 @@
+{
+  "load_extensions": {
+    "nbextensions_configurator/config_menu/main": true,
+    "toc2/main": true,
+    "snippets_menu/main": true,
+    "codefolding/main": true,
+    "highlighter/highlighter": true,
+    "nbTranslate/main": true,
+    "contrib_nbextensions_help_item/main": true,
+    "comment-uncomment/main": false,
+    "jupyter-js-widgets/extension": true,
+    "limit_output/main": true,
+    "hide_input_all/main": true,
+    "execute_time/ExecuteTime": true,
+    "toggle_all_line_numbers/main": true,
+    "autosavetime/main": false,
+    "table_beautifier/main": true,
+    "chrome-clipboard/main": true,
+    "collapsible_headings/main": true,
+    "printview/main": true,
+    "export_embedded/main": false,
+    "varInspector/main": true,
+    "rubberband/main": true,
+    "code_prettify/code_prettify": true,
+    "snippets/main": true
+  },
+  "limit_output": "100000",
+  "varInspector": {
+    "cols": {
+      "lenVar": "100"
+    }
+  }
+}

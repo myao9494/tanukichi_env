@@ -1,13 +1,161 @@
 {
     "snippets" : [
         {
-            "name" : "example",
+            "name" : "explore",
             "code" : [
-                "# This is an example snippet!",
-                "# To create your own, add a new snippet block to the",
-                "# snippets.json file in your jupyter nbextensions directory:",
-                "# /nbextensions/snippets/snippets.json",
-                "import this"
+                "! explorer ."
+            ]
+        },
+        {
+            "name" : "code",
+            "code" : [
+                "! code ."
+            ]
+        },
+        {
+            "name" : "jikou",
+            "code" : [
+                "import win32com.client ; wshShell = win32com.client.Dispatch('WScript.Shell') #実行",
+                "wshShell.Run('cmd.exe')"
+            ]
+        },
+        {
+            "name" : "access_snippets",
+            "code" : [
+                "! %userprofile%/AppData/Roaming/jupyter/nbextensions/snippets/snippets.json"
+            ]
+        },
+        {
+            "name" : "tanukichi",
+            "code" : [
+                "import jupyter_tanuki,importlib;obj=jupyter_tanuki.jupyter_tanuki();obj.tree()"
+            ]
+        },
+        {
+            "name" : "set_environ",
+            "code" : [
+                "! setx sikuli_home '%jupyter_home%/root/N96_sikuli' #環境変数のセット"
+            ]
+        },
+
+        {
+            "name" : "subprocess",
+            "code" : [
+                "import subprocess,os",
+                "args=['python',os.path.join(os.environ['JUPYTER_HOME'],'common','000_lib','window_handle.py'),'Market Speed']",
+                "p=subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)",
+                "# p=subprocess.Popen(args) # 投げっぱなしにする場合",
+                "try:",
+                "    out,errs=p.communicate()",
+                "except:",
+                "    p.kill",
+                "    out,ers=p.communicate()",
+                "print(out.decode('utf-8'))",
+                "print(errs.decode('utf-8'))",
+                "#【受ける側のコード】",
+                "import sys",
+                "if __name__ == '__main__':",
+                "    obj=window_ope()",
+                "    obj.taisho_name=sys.argv[1]",
+                "    print(obj.taisho_name)"
+            ]
+        },
+        {
+            "name" : "class_template",
+            "code" : [
+                "# -*- coding: utf-8; py-indent-offset:4 -*-",
+                "###############################################################################",
+                "#",
+                "# Copyright (C) Mineo Sudo",
+                "#",
+                "###############################################################################",
+                "from redminelib import Redmine",
+                "",
+                "class redmine_tanuki(object):",
+                "    '''",
+                "    自分自身が使いやすい環境を構築する",
+                "    '''",
+                "    def __init__(self,url,user_name,pass_word):",
+                "        self.redmine = Redmine(url, username=user_name, password=pass_word)",
+                "",
+                "if __name__ == '__main__':",
+                "    obj=redmine_tanuki('a','b','c')"
+            ]
+        },
+        {
+            "name" : "pandas_screiping",
+            "code" : [
+                "import pandas as pd",
+                "url = 'https://www.rakuten-sec.co.jp/MarketSpeed/onLineHelp/msman1_11_6a.html'",
+                "fetched_dataframes = pd.io.html.read_html(url)",
+                "df=fetched_dataframes[0]",
+                "display(df)"
+            ]
+        },
+        {
+            "name" : "pandas_cheat",
+            "code" : [
+                "li=df['情報項目'].values.tolist() #行のリスト化",
+                "pd.concat([s1, s2, s3], axis=1) #行の連結 axis=0で列",
+                "df.apply(pd.value_counts) # 頻度を出す",
+                "df.loc[1, :] # 行番号指定",
+                "df[['a','c']] # 列のインデックス指定 → seris",
+                "df.loc[1] # 列番号指定",
+                "df.loc[ 1: , 1:3] #行・列の両方を番号指定 ",
+                "df.loc['one':'three',['b','d']] # 行と列のインデックス指定",
+                "df.columns = ['a','b','c','d','e','f','g']  #カラム名を付ける",
+                "df.index   = ['gad',12,13,14,15,16]  #インデックス名を付ける",
+                "df=df.drop(['a','g'],axis=1) #列を削除する",
+                "df=df.drop([0,1],axis=0) #行を削除する",
+                "df.loc[(df['B'] > 50) & (df['C'] == 900), 'A'] #特定の値での条件抽出 このデータに対して例えば B が 50 より大きく， C が 900 の時の A のデータを検索する",
+                "# Series",
+                "obj.index # インデックスにアクセス",
+                "obj.values # データにアクセス",
+                "obj.values[0]  # データの特定の要素にアクセス",
+                "# 重複操作",
+                "a.dupulicated() #重複があるかどうかしらべる。返り値はT/F",
+                "a.dupulicated() #削除 ",
+                "# #欠損値",
+                "df.dropna() #欠損値がひとつでも含まれていたら、行を落とす",
+                "df.dropna(how='all') #すべての値が欠損していたら、行を落とす",
+                "df.fillna(0) #欠損値を0で埋める",
+                "df.fillna(method='ffill') #前の値で欠損値を埋める",
+                "# ループ",
+                "for i, v in df.iterrows(): #下記の場合は、X,Yの列名があり、行方向へのループ（列の場合は行名を入れる）",
+                "    print (i, v['X'], v['Y'])    # iは行または列名　v は Series",
+                "# グラフ　https://python-graph-gallery.com/"
+            ]
+        },
+        {
+            "name" : "excel_to_pandas",
+            "code" : [
+                "import os,pandas as pd",
+                "book,sheet='book','sheet'",
+                "df=pd.read_excel(book, sheet, header=0, skiprows=7, index_col=0, parse_cols='B:S')",
+                "#df.columns = ['a','b','c','d','e','f','g']  #必要に応じてカラム名を付ける"
+            ]
+        },
+        {
+            "name" : "pandas_matplotlib",
+            "code" : [
+                "import pandas as pd",
+                "import matplotlib.pyplot as plt",
+                "%matplotlib inline",
+                "df=pd.read_csv('data/EURUSD60.csv', header=None, encoding='shift-jis')",
+                "pd.set_option('display.max_colwidth', 80)#カラム内の文字数。デフォルトは50だった",
+                "pd.set_option('display.max_rows', 500)#行数",
+                "pd.options.display.notebook_repr_html = True",
+                "plt.style.use('seaborn-darkgrid')# グラフのスタイル",
+                "palette = plt.get_cmap('Set1')# create a color palette",
+                "num=0 # 系列",
+                "for column in df.drop('b', axis=1): # x軸の列をドロップして、その他列に対して系列を追加",
+                "    num+=1",
+                "    plt.plot(df['b'], df[column], marker='', color=palette(num), linewidth=1, alpha=0.9, label=column)",
+                "plt.legend(loc=2, ncol=2)# Add legend # 系列表の追加",
+                "plt.title('A (bad) Spaghetti plot', loc='left', fontsize=12, fontweight=0, color='orange')# Add titles",
+                "plt.xlabel('Description of $x$ coordinate (units)')",
+                "plt.ylabel('Description of $y$ coordinate (units)')",
+                "df.to_csv('heisei19to26.csv')"
             ]
         }
     ]
