@@ -4,8 +4,9 @@
 #
 # Copyright (C) Mineo Sudo
 # PYTHONPATHに"%jupyterhome%\000_lib"を設定する
-# 
+#
 ###############################################################################
+import pyperclip
 import subprocess,os
 
 def jikou(exe_path=""):
@@ -28,4 +29,30 @@ if __name__ == '__main__':
     jikou("sikuli")
 
 
-    
+
+def delete_equal():
+    b=""
+    tex=pyperclip.paste()
+    for i in range(tex.count("\r\n")+1):
+        a=tex[:tex.find('=')]
+        tex=tex[tex.find("\r\n")+2:]
+        b=b+a+"\r\n"
+    pyperclip.copy(b)
+
+def delete_kaigyo():
+    tex=pyperclip.paste()
+    tex=tex.replace("\r\n","")
+    pyperclip.copy(tex)
+
+if __name__ == '__main__':
+    """test_delete_equal
+    """
+    test='self.chg_posi = self.obs_posi[-self.step_len:]\r\nself.chg_posi_var = self.obs_posi_var[-self.step_len:]\r\nself.chg_posi_entry_cover = self.obs_posi_entry_cover[-self.step_len:]\r\nself.chg_price = self.obs_price[-self.step_len:]\r\nself.chg_price_mean = self.obs_price_mean[-self.step_len:]\r\nself.chg_reward_fluctuant = self.obs_reward_fluctuant[-self.step_len:]\r\nself.chg_makereal = self.obs_makereal[-self.step_len:]\r\nself.chg_reward = self.obs_reward[-self.step_len:]'
+    pyperclip.copy(test)
+    delete_equal()
+    print(pyperclip.paste())
+    """delete_kaigyo
+    """
+    test='self.chg_posi = self.obs_posi[-self.step_len:]\r\nself.chg_posi_var = self.obs_posi_var[-self.step_len:]\r\nself.chg_posi_entry_cover = self.obs_posi_entry_cover[-self.step_len:]\r\nself.chg_price = self.obs_price[-self.step_len:]\r\nself.chg_price_mean = self.obs_price_mean[-self.step_len:]\r\nself.chg_reward_fluctuant = self.obs_reward_fluctuant[-self.step_len:]\r\nself.chg_makereal = self.obs_makereal[-self.step_len:]\r\nself.chg_reward = self.obs_reward[-self.step_len:]'
+    delete_kaigyo()
+    print(pyperclip.paste())
