@@ -21,6 +21,24 @@
             ]
         },
         {
+            "name" : "graph",
+            "code" : [
+                "import matplotlib;import matplotlib.pyplot as plt;plt.style.use('dark_background') ",
+                "font = {'family' : 'meiryo'};matplotlib.rc('font', **font)",
+                "df.plot(figsize=(16,10), alpha=0.5)"
+            ]
+        },
+        {
+            "name" : "code_read_tool",
+            "code" : [
+                "vars() #　変数をdict型で返す",
+                "dir() #　定義されている関数と変数を返す",
+                "help() # ヘルプを返します",
+                "locals() # 関数内の変数が見たい時に使用",
+                "globals() #　グローバル変数を見たい時に使用"
+            ]
+        },
+        {
             "name" : "jikou",
             "code" : [
                 "import win32com.client ; wshShell = win32com.client.Dispatch('WScript.Shell') #実行",
