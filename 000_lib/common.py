@@ -6,26 +6,63 @@
 # PYTHONPATHに"%jupyterhome%\000_lib"を設定する
 #
 ###############################################################################
-import pyperclip
-import subprocess,os
+import pyperclip,json
 
-def jikou(exe_path=""):
-    if exe_path == "" :
-        print("pathが入力されていません")
+def make_muru_list(li):
+    """追いかけたいであろうオブジェクトのリストを返します。実際にはこのリストからリストを作成してmiruへ入力
+    
+    Args:
+        li (list): dir(object)　対象オブジェクトの名前一覧
+    
+    Returns:
+        list: 追いかけたいであろう変数のリスト
+    """
+    # ignore_listに含まれている変数は除外されます
+    ignore_list=["In","NamespaceMagics","Out","exit","get_ipython", 'get_ipython','getsizeof','json','np',
+                 'quit','var_dic_list','yapf_reformat','i', 'ignore_list', 'li', 'new_list']
+    new_list=[]
+    for i in li:
+        if i.find("_") != 0 and i not in ignore_list:
+            new_list.append(i)
+    return new_list
 
-    elif exe_path == "code" :
-        args=[os.environ["code_exe_path"]]
-        p=subprocess.Popen(args) 
+def miru(miru_list,var_dict):
+    """対象オブジェクト内のオブジェクトを分析します。miru.jsonにjson形式で保存されます
+    
+    Args:
+        miru_list (list): オブジェクトの名前
+        var_dict (dict): vars(object) 対象オブジェクトの変数一覧
+    
+    Returns:
+        dict: miru_dict　変数一覧
+        dict: pandas_dict　pandas一覧
+        dict: numpy_dict　numpy一覧
+        dict: function_dict　function一覧
+    """
 
-    elif exe_path == "sikuli" :
-        args=[os.path.join(os.environ["SIKULI_HOME"],"runsikulix.cmd")]
-        p=subprocess.Popen(args) 
+    miru_dict={}
+    pandas_dict={}
+    numpy_dict={}
+    function_dict={}
+    for i in miru_list:
+        try:
+            if str(type(var_dict[i])).find("DataFrame") != -1:
+                pandas_dict[i] = "pandas dataframe"
+            elif str(type(var_dict[i])).find("numpy.ndarray") != -1:
+                numpy_dict[i] = "numpy"
+            elif len(str(var_dict[i])) :
+                miru_dict[i] = str(var_dict[i])
+        except:
+            function_dict[i] = "function"
 
-    else:
-        args=[[exe_path]]
-        p=subprocess.Popen(args)
+    with open('miru.json' , "w" ) as f:
+        json.dump(miru_dict , f, indent= 4 )
+    return miru_dict,pandas_dict,numpy_dict,function_dict
 
 def delete_equal():
+    """クリップボード内の文字列から=前のみを抽出します
+    """
+
     b=""
     tex=pyperclip.paste()
     for i in range(tex.count("\r\n")+1):
@@ -35,11 +72,17 @@ def delete_equal():
     pyperclip.copy(b)
 
 def delete_kaigyo():
+    """クリップボード内の文字列から改行を削除します
+    """
+
     tex=pyperclip.paste()
     tex=tex.replace("\r\n","")
     pyperclip.copy(tex)
 
-def delete_under_bar():
+def replace_under_bar():
+    """クリップボード内の文字列内の_をスペースに置き換えます
+    """
+
     tex=pyperclip.paste()
     tex=tex.replace("_"," ")
     pyperclip.copy(tex)
