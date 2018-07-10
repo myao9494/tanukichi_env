@@ -7,6 +7,27 @@
 #
 ###############################################################################
 import pyperclip,json
+import pandas as pd
+
+def numpy_viz(numpy_array):
+    """numpyをグラフに表示します
+    
+    Args:
+        numpy_array (numpy array): 見える化したいnumpy行列
+    """
+
+    df = pd.DataFrame(numpy_array)
+    df_viz(df)
+    
+def df_viz(df):
+    """pandas dataframeをグラフ化します
+    
+    Args:
+        df (pandas dataframe): 見える化したいデータフレーム
+    """
+
+    df.plot(subplots=True,figsize=(16,10))
+
 
 def make_muru_list(li):
     """追いかけたいであろうオブジェクトのリストを返します。実際にはこのリストからリストを作成してmiruへ入力
