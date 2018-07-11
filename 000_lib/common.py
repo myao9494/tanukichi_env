@@ -9,25 +9,53 @@
 import pyperclip,json
 import pandas as pd
 
-def numpy_viz(numpy_array):
-    """numpyをグラフに表示します
+
+def graph_ka(dict,obj):
+    """グラフを表示します
     
     Args:
+        dict (dictionaly): ディクショナリ型で、miruで取得したデータ
+        obj  (object):miruで対象としたオブジェクト
+    """
+
+    for k, v in dict.items():
+        try:
+            if v == "numpy":
+                _numpy_viz(getattr(obj,k), v + " : " + k )
+            elif v == "pandas dataframe":
+                _df_viz(getattr(obj,k), v + " : " + k )
+            else:
+                print("naiyo")
+        except:
+            print(v + " : " + k  + " : No value")
+            pass
+
+
+def _numpy_viz(numpy_array,graph_title=""):
+    """numpyをグラフに表示します
+    
+    Args:   
         numpy_array (numpy array): 見える化したいnumpy行列
+        graph_title: グラフのタイトル
     """
 
     df = pd.DataFrame(numpy_array)
-    df_viz(df)
-    
-def df_viz(df):
+    _df_viz(df,graph_title)
+
+def _df_viz(df,graph_title=""):
     """pandas dataframeをグラフ化します
     
     Args:
         df (pandas dataframe): 見える化したいデータフレーム
+        graph_title: グラフのタイトル
     """
-
-    df.plot(subplots=True,figsize=(16,10))
-
+    df.plot(subplots=True,
+            figsize=(16,10),
+            title=graph_title,
+            grid=True,
+            # colormap='Accent',
+            legend=True,
+            alpha=1)
 
 def make_muru_list(li):
     """追いかけたいであろうオブジェクトのリストを返します。実際にはこのリストからリストを作成してmiruへ入力
@@ -124,8 +152,8 @@ if __name__ == '__main__':
     print(pyperclip.paste())
     """delete_under_bar
     """
-    test="delete_under_bar"
+    test="replace_under_bar"
     pyperclip.copy(test)
-    delete_under_bar()
+    replace_under_bar()
     print(pyperclip.paste())
 
