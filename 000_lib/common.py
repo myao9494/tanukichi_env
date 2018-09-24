@@ -9,12 +9,48 @@
 import pyperclip,json
 import pandas as pd
 
+def miru(obj):
+    """対象オブジェクトを構成しているオブジェクトを分類してリストで返します。miru.jsonにjson形式で保存されます
+    
+    Args:
+        obj (obj): 分類対象オブジェクト
+    
+    Returns:
+        dict: miru_dict　変数一覧
+        dict: pandas_dict　pandas一覧
+        dict: numpy_dict　numpy一覧
+        dict: function_dict　function一覧
+    """
+    miru_list = _make_muru_list(obj)
+    var_dict = vars(obj)
+    miru_dict={}
+    pandas_dict={}
+    numpy_dict={}
+    function_dict={}
+    for i in miru_list:
+        try:
+            if str(type(var_dict[i])).find("DataFrame") != -1:
+                pandas_dict[i] = "pandas dataframe"
+            elif str(type(var_dict[i])).find("numpy.ndarray") != -1:
+                numpy_dict[i] = "numpy"
+            elif len(str(var_dict[i])) :
+                miru_dict[i] = str(var_dict[i])
+        except:
+            function_dict[i] = "function"
+
+    with open('miru.json' , "w" ) as f:
+        json.dump(miru_dict , f, indent= 4 )
+    return miru_dict,pandas_dict,numpy_dict,function_dict
+
+
 
 def graph_ka(dict,obj):
     """グラフを表示します
     
     Args:
-        dict (dictionaly): ディクショナリ型で、miruで取得したデータ
+        dict (dictionaly): ディクショナリ型で、miruで取得した下記データ
+            dict: pandas_dict　pandas一覧
+            dict: numpy_dict　numpy一覧
         obj  (object):miruで対象としたオブジェクト
     """
 
@@ -57,7 +93,7 @@ def _df_viz(df,graph_title=""):
             legend=True,
             alpha=1)
 
-def make_muru_list(li):
+def _make_muru_list(obj):
     """追いかけたいであろうオブジェクトのリストを返します。実際にはこのリストからリストを作成してmiruへ入力
     
     Args:
@@ -66,7 +102,7 @@ def make_muru_list(li):
     Returns:
         list: 追いかけたいであろう変数のリスト
     """
-    # ignore_listに含まれている変数は除外されます
+    li=dir(obj)
     ignore_list=["In","NamespaceMagics","Out","exit","get_ipython", 'get_ipython','getsizeof','json','np',
                  'quit','var_dic_list','yapf_reformat','i', 'ignore_list', 'li', 'new_list']
     new_list=[]
@@ -74,39 +110,6 @@ def make_muru_list(li):
         if i.find("_") != 0 and i not in ignore_list:
             new_list.append(i)
     return new_list
-
-def miru(miru_list,var_dict):
-    """対象オブジェクト内のオブジェクトを分析します。miru.jsonにjson形式で保存されます
-    
-    Args:
-        miru_list (list): オブジェクトの名前
-        var_dict (dict): vars(object) 対象オブジェクトの変数一覧
-    
-    Returns:
-        dict: miru_dict　変数一覧
-        dict: pandas_dict　pandas一覧
-        dict: numpy_dict　numpy一覧
-        dict: function_dict　function一覧
-    """
-
-    miru_dict={}
-    pandas_dict={}
-    numpy_dict={}
-    function_dict={}
-    for i in miru_list:
-        try:
-            if str(type(var_dict[i])).find("DataFrame") != -1:
-                pandas_dict[i] = "pandas dataframe"
-            elif str(type(var_dict[i])).find("numpy.ndarray") != -1:
-                numpy_dict[i] = "numpy"
-            elif len(str(var_dict[i])) :
-                miru_dict[i] = str(var_dict[i])
-        except:
-            function_dict[i] = "function"
-
-    with open('miru.json' , "w" ) as f:
-        json.dump(miru_dict , f, indent= 4 )
-    return miru_dict,pandas_dict,numpy_dict,function_dict
 
 def delete_equal():
     """クリップボード内の文字列から=前のみを抽出します
