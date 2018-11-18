@@ -103,3 +103,4 @@ ENV/
 *.csv
 *.html
 999_factory
+.vs/
