@@ -10,8 +10,11 @@
 [ ] 指定した文字のどれか
 """
 #---------------------------command cmd コマンドプロンプト バッチ シェル　shell ------------------------------------
+"""
 jupyter notebook
-
+%sikuli_home%/runsikulix.cmd
+%sikuli_home%/runsikulix.cmd -r ***.sikuli >>***Log.txt
+"""
 #---------------------------import ------------------------------------
 %matplotlib inline
 import pandas as pd
@@ -22,6 +25,7 @@ cf.go_offline()
 """
 pandas sample 時系列
 """
+import datetime
 i=1000
 now=datetime.datetime.now()
 li=[now,i,i+10,i-10,i+5]
@@ -73,7 +77,7 @@ pandas 読み込み sqlite3
 """
 import pandas as pd
 import sqlite3
-conn = sqlite3.connect(db_name)
+conn = sqlite3.connect("test.db")
 df = pd.read_sql_query('select * from {}'.format('stock_data'), conn)
 
 """
@@ -86,7 +90,7 @@ fetched_dataframes = pd.io.html.read_html(url)
 欠損値nanの扱い　Nan NaN https://note.nkmk.me/python-pandas-nan-dropna-fillna/
 """
 df=df.dropna() #nanの行を削除（行内に一つでもnanがあれば　行を削除）
-df.dropna(axis=1)　#nanの列を削除（列内に一つでもnanがあれば　列を削除）
+df.dropna(axis=1) #nanの列を削除（列内に一つでもnanがあれば　列を削除）
 df.dropna(how='all') #すべての値が欠損値である行を削除する
 df.dropna(how='all', axis=1) #すべての値が欠損値である列を削除する
 df.dropna(how='all').dropna(how='all', axis=1) #行列両方に適用
@@ -101,6 +105,7 @@ df.apply(pd.Series.interpolate)#前後の線形の値で埋めたい場合 https
 """
 inf弾く
 """
+import numpy as np
 df.replace([np.inf, -np.inf], np.nan)
 
 """
@@ -149,7 +154,7 @@ https://note.nkmk.me/python-pandas-query/
 
 query の場合　Noneや欠損値NaNがある列に対して文字列メソッドを適用して条件とするとエラーになるので注意。
 """
-df[df['age'] < 25]　#比較演算子で条件指定
+df[df['age'] < 25] #比較演算子で条件指定
 df[df.a > 0]  # aというカラムが0より大きいものを抽出
 df[~df.a > 0] # aというカラムが0より大きいもの"以外"を抽出
 df.query('age < 25')#条件を文字列で指定
@@ -210,19 +215,19 @@ pandas table 表　綺麗
 """
 from plotly.offline import init_notebook_mode, iplot
 import plotly.figure_factory as ff
-iplot(ff.create_table(data_matrix))
+# iplot(ff.create_table(data_matrix))
 iplot(ff.create_table(df))
 """
 pandas iterrows
 # 縦方向にループ
 """
-for i, v in data.iterrows(): #下記の場合は、X,Yの列名があり、行方向へのループ（列の場合は行名を入れる）
+for i, v in df.iterrows(): #下記の場合は、X,Yの列名があり、行方向へのループ（列の場合は行名を入れる）
     print (i, v['X'], v['Y'])    # iは行または列名　v は Series
 """
 pandas iterrows
 # 横方向にループ
 """
-for i, v in data.iteritems():
+for i, v in df.iteritems():
     print (i, v['a'], v['b'], v['c'])   # v は Series
 
 """
@@ -245,6 +250,7 @@ df=df.drop("high", axis=1)
 """
 pandas 全体像をつかむ https://qiita.com/h_kobayashi1125/items/02039e57a656abe8c48f
 """
+import pandas_profiling
 pandas_profiling.ProfileReport(df)
 
 #-------------------------windows --------------------
@@ -275,9 +281,9 @@ string ⇨ datetime フォーマットに気をつける。
 """
 from datetime import datetime as dt
 tstr1 = '2019-01-01 00:00:00'
-tdatetime = dt.strptime(tstr, '%Y-%m-%d %H:%M:%S')
+tdatetime = dt.strptime(tstr1, '%Y-%m-%d %H:%M:%S')
 tstr2 = '2019/01/01 00:00:00'
-tdatetime = dt.strptime(tstr, '%Y/%m/%d %H:%M:%S')
+tdatetime = dt.strptime(tstr2, '%Y/%m/%d %H:%M:%S')
 """
 datetime ⇨ string
 """
@@ -332,8 +338,9 @@ c = b.replace("e","E") #''1.5000E-04'
 
 #---------------------------pyhton 文字列 ------------------------------------
 i = i.replace("4,500", "")#【置き換え】
-tes.find("デイトレ助言")　#最初から探す 【特定の文字列を見つける】
-tes.rfind("デイトレ助言")　#最後から探す 【特定の文字列を見つける】
+tes = "ssssaaaa"
+tes.find("aaa") #最初から探す 【特定の文字列を見つける】
+tes.rfind("aaa") #最後から探す 【特定の文字列を見つける】
 s="株 （1株単位）"
 s=s[s.find("株 （")+len( "株 （"):s.find("株単位）" ) ]
 def cut_text_rss(src):#【文字列を抜き出す】
