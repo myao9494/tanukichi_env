@@ -3,12 +3,14 @@
 """
 #---------------------------正規表現 ------------------------------------
 """
+サルにもわかる正規表現入門 https://www.mnet.ne.jp/~nakama/
 .   なんでもいい１文字
 .*  なんでもいい文字の連続
 |   いずれかの文字列
 [ ] 指定した文字のどれか
 """
 #---------------------------command cmd コマンドプロンプト バッチ シェル　shell ------------------------------------
+jupyter notebook
 
 #---------------------------import ------------------------------------
 %matplotlib inline
@@ -73,6 +75,12 @@ import pandas as pd
 import sqlite3
 conn = sqlite3.connect(db_name)
 df = pd.read_sql_query('select * from {}'.format('stock_data'), conn)
+
+"""
+pandas 読み込み web
+"""
+url = 'http://www.jma.go.jp/jp/warn/329_table.html'
+fetched_dataframes = pd.io.html.read_html(url)
 
 """
 欠損値nanの扱い　Nan NaN https://note.nkmk.me/python-pandas-nan-dropna-fillna/
@@ -246,7 +254,11 @@ https://stackoverflow.com/questions/2963263/how-can-i-create-a-simple-message-bo
 """
 import ctypes  # An included library with Python install.   
 ctypes.windll.user32.MessageBoxW(0, "Your text", "Your title", 1)
-
+"""
+beep音を出す　音を出す　知らせる
+"""
+import winsound
+winsound.Beep(1000,800)
 """
 ショートカットを作成
 """
