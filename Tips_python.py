@@ -326,7 +326,8 @@ def _angle_between(refvec):
     ang2 = np.arctan2(*refvec[::-1])
     return np.rad2deg((ang1 - ang2) % (2 * np.pi))
 
-pnt = sorted(pnt, key=_angle_between)
+pnt = sorted(pnt, key=_angle_between)#時計回り
+pnt = sorted(pnt, key=_angle_between,reverse=True)#反時計回り
 
 #---------------------------pyhton 数値計算 ------------------------------------
 """
