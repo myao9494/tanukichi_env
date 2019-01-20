@@ -11,9 +11,13 @@
 """
 #---------------------------command cmd コマンドプロンプト バッチ シェル　shell ------------------------------------
 """
-jupyter notebook
+jupyter notebook %jupyter_home%
 %sikuli_home%/runsikulix.cmd
 %sikuli_home%/runsikulix.cmd -r ***.sikuli >>***Log.txt
+"""
+#---------------------------git command ------------------------------------
+"""
+git show HEAD^:presentation.pptx > temp.pptx #ひとつ前のコミットを別ファイルとして取りだし+-
 """
 #---------------------------import ------------------------------------
 %matplotlib inline
@@ -129,6 +133,10 @@ pandas 型
 """
 df.dtypes # 型確認
 df=df.apply(pd.to_numeric, errors='ignore') #型変更（数字に変換）
+df['現在値'].apply(pd.to_numeric, errors='coerce') #型変更（数字に変換）
+df['i'].astype(str) #数値を文字列に変換
+    #整数intに変換
+df['i'].astype(float) #浮動小数点floatに変換
 
 """
 pandas 文字列 すべてのセルの文字数を8個にする
