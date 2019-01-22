@@ -19,12 +19,17 @@ jupyter notebook %jupyter_home%
 """
 git show HEAD^:presentation.pptx > temp.pptx #ひとつ前のコミットを別ファイルとして取りだし+-
 """
-#---------------------------import ------------------------------------
+#---------------------------import lib library------------------------------------
 %matplotlib inline
 import pandas as pd
 import cufflinks as cf
 cf.set_config_file(offline=True, theme="white", offline_show_link=False)
 cf.go_offline()
+"""
+ライブラリのリロード
+"""
+import importlib
+importlib.reload(foo)
 #---------------------------pandas ------------------------------------
 """
 pandas sample 時系列
@@ -132,8 +137,8 @@ df['D'] = df.apply( func, axis=1)
 pandas 型
 """
 df.dtypes # 型確認
-df=df.apply(pd.to_numeric, errors='ignore') #型変更（数字に変換）
-df['現在値'].apply(pd.to_numeric, errors='coerce') #型変更（数字に変換）
+df=df.apply(pd.to_numeric, errors='ignore') #型変更（数字に変換）エラーは無視
+df['現在値'].apply(pd.to_numeric, errors='coerce') #型変更（数字に変換）エラーはnanとなる
 df['i'].astype(str) #数値を文字列に変換
     #整数intに変換
 df['i'].astype(float) #浮動小数点floatに変換
@@ -207,6 +212,8 @@ https://qiita.com/inoory/items/7c8ca9fd5e1aca3e2e72
 """
 df.iplot(xTitle="X軸名", yTitle="Y軸名", title="タイトル")
 df.iplot(kind="scatter" ,mode='markers', x="col1", y=["col2"]) # 散布図
+df.iplot(kind="scatter" ,mode='lines+markers', x="col1", y=["col2"]) # 散布図　線つき
+df.iplot(kind="scatter" ,mode='lines', x="col1", y=["col2"]) # 散布図　線のみ
 df.iplot(subplots=True, shape=(2,1), shared_xaxes=True)#subplot
 """
 pandas plot 動くグラフ　図　可視化
@@ -251,9 +258,10 @@ df.duplicated(['x', 'y']).any() #部分的な重複チェック x と y 列の�
 df.drop_duplicates(['x', 'y']) # 重複データを削除　前のデータを残す
 df.drop_duplicates(['x', 'y'], keep='last') #重複データを削除　後のデータを残す
 """
-pandas 列の削除
+pandasの列操作
 """
-df=df.drop("high", axis=1)
+df=df.drop("high", axis=1)#列の削除
+df=df.loc[:,["x","y","z"]]#列の順番を変更["y","x","Z"]を["x","y","z"]に並び替える
 
 """
 pandas 全体像をつかむ https://qiita.com/h_kobayashi1125/items/02039e57a656abe8c48f
@@ -401,7 +409,7 @@ jupyterのマジックコマンド
 pd.options.display.max_columns = None
 pd.options.display.max_rows = 100
 
-#---------------------------file操作 ------------------------------------
+#---------------------------file/folder操作 ファイル、フォルダ------------------------------------
 """
 ファイルの操作
 """
@@ -413,7 +421,13 @@ f = open("write.txt","r")
 for row in f:
     print(row)
 f.close()
-
+"""
+フォルダの操作
+"""
+if not os.path.exists(os.path.dirname(f_path_copy)):#フォルダが無ければ作成する
+    os.makedirs(os.path.dirname(f_path_copy))
+shutil.rmtree("diff_env")#フォルダの削除
+os.mkdir("diff_env")#フォルダの作成
 #---------------------------環境づくり ------------------------------------
 """
 pip
