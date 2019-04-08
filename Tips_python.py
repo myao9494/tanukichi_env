@@ -15,9 +15,21 @@ jupyter notebook %jupyter_home%
 %sikuli_home%/runsikulix.cmd
 %sikuli_home%/runsikulix.cmd -r ***.sikuli >>***Log.txt
 """
+#---------------------------bush command ------------------------------------
+"""
+ps ux | grep fess  "fess"を含む自分が立ち上げているプロセスを表示
+kill プロセスid  プロセスを終了
+kill -9 プロセスid　プロセスを強制終了
+"""
 #---------------------------git command ------------------------------------
 """
 git show HEAD^:presentation.pptx > temp.pptx #ひとつ前のコミットを別ファイルとして取りだし+-
+git add -A 全ての変更をステージング
+git commit -m "コメント"　ステージングした変更をコミット
+git push リモートに反映
+
+git reset --soft "HEAD^"　　コミットの削除　--softは変更はそのままにするという意味
+
 """
 #---------------------------import lib library------------------------------------
 %matplotlib inline
@@ -58,10 +70,18 @@ df = pd.DataFrame({'A':[1,2,3],'B':[4,5,6],'C':[7,8,9],'D':["ddd","drh","dsh"]})
 df.to_csv("test_other.csv", index=False)
 
 """
-pandas 読み込み 時系列　
+pd.Timestamp
 """
-df=pd.read_csv("test_time.csv", header=0, index_col='time', parse_dates=True,na_values=[" ", 0],dtype="float")
-df.index=pd.DatetimeIndex(df.index)
+today = pd.Timestamp(date.today())
+pd.Timestamp(2019,12,15,9,10,1) #2019年12月15日9時10分1秒
+
+"""
+pandas 時系列　
+"""
+df=pd.read_csv("test_time.csv", header=0, index_col='time', parse_dates=True,na_values=[" ", 0],dtype="float")#読み込み 
+df.index=pd.DatetimeIndex(df.index)#インデックスを時間に指定
+df=df.between_time('9:00', '11:30')#特定の時間のみを取り出す（日時は関係なし）
+df_temp = df[df.index >= pd.Timestamp(2019,1,25)]#2019年1月25日以降のデータを出す
 
 """
 pandas 読み込み codec error 読み込み時にcodecのエラーが出る
@@ -86,9 +106,13 @@ pandas 読み込み sqlite3
 """
 import pandas as pd
 import sqlite3
-conn = sqlite3.connect("test.db")
-df = pd.read_sql_query('select * from {}'.format('stock_data'), conn)
-
+mei=7974
+db_name = os.path.join(os.environ['userprofile'], "Documents" , (str(mei) + ".db"))
+conn = sqlite3.connect(db_name)
+df=pd.read_sql_query('select * from {}'.format('stock_data'), conn, index_col='時間')
+df.index=pd.DatetimeIndex(df.index)
+df = df.replace([' ', '  :  ',"nan","  :  :  "], [np.nan, np.nan, np.nan, np.nan])
+conn.close()
 """
 pandas 読み込み web
 """
@@ -98,6 +122,7 @@ fetched_dataframes = pd.io.html.read_html(url)
 """
 欠損値nanの扱い　Nan NaN https://note.nkmk.me/python-pandas-nan-dropna-fillna/
 """
+df = df.replace([' ', '  :  ',"nan","  :  :  "], [np.nan, np.nan, np.nan, np.nan])#特定の文字列をnanに変更
 df=df.dropna() #nanの行を削除（行内に一つでもnanがあれば　行を削除）
 df.dropna(axis=1) #nanの列を削除（列内に一つでもnanがあれば　列を削除）
 df.dropna(how='all') #すべての値が欠損値である行を削除する
@@ -137,6 +162,17 @@ df['D'] = df.apply( func, axis=1)
 pandas 型
 """
 df.dtypes # 型確認
+"""
+'b'       boolean
+'i'       (signed) integer
+'u'       unsigned integer
+'f'       floating-point
+'c'       complex-floating point
+'O'       (Python) objects
+'S', 'a'  (byte-)string
+'U'       Unicode
+'V'       raw data (void)
+"""
 df=df.apply(pd.to_numeric, errors='ignore') #型変更（数字に変換）エラーは無視
 df['現在値'].apply(pd.to_numeric, errors='coerce') #型変更（数字に変換）エラーはnanとなる
 df['i'].astype(str) #数値を文字列に変換
@@ -160,6 +196,8 @@ pandas index を指定
 """
 df=df.set_index("時間")
 df.index=pd.DatetimeIndex(df.index)
+
+
 
 """
 pandas data 抽出　pandas.DataFrameの行を条件で抽出するquery
@@ -204,7 +242,7 @@ df1=df[li]
 pandas plot グラフ　図　可視化
 python matplotlibで見栄えの良い色, グラフを作るTips　https://www.procrasist.com/entry/matplotlib-visual-tips
 """
-df.plot(subplots=True,figsize=(15,50))
+df1.plot(subplots=True,figsize=(20,15))
 
 """
 pandas plot 動くグラフ　図　可視化 https://www.sejuku.net/blog/61788
@@ -422,12 +460,15 @@ for row in f:
     print(row)
 f.close()
 """
-フォルダの操作
+フォルダの操作　
 """
 if not os.path.exists(os.path.dirname(f_path_copy)):#フォルダが無ければ作成する
     os.makedirs(os.path.dirname(f_path_copy))
 shutil.rmtree("diff_env")#フォルダの削除
 os.mkdir("diff_env")#フォルダの作成
+#---------------------------環境変数 ------------------------------------
+os.environ['userprofile']#環境変数を取得
+sys.path.append("/Users/username/Desktop")#ライブラリを読み込むパスを追加（一時的にpythonpathに追加）
 #---------------------------環境づくり ------------------------------------
 """
 pip
@@ -439,3 +480,21 @@ pip
  アンダースコア二つで定義される関数は外部の参照を受けないもの。この場合、アンダースコアで囲う。
  アンダースコア一つで定義される関数は参照はできるが、基本的に外部から参照しない ということを慣習化させたものらしい。
 """
+#---------------------------class ------------------------------------
+# -*- coding: utf-8; py-indent-offset:4 -*-
+###############################################################################
+#
+# Copyright (C) Mineo Sudo
+#
+###############################################################################
+from redminelib import Redmine
+
+class redmine_tanuki(object):
+    '''
+    自分自身が使いやすい環境を構築する
+    '''
+    def __init__(self,url,user_name,pass_word):
+        self.redmine = Redmine(url, username=user_name, password=pass_word)
+
+if __name__ == '__main__':
+    obj=redmine_tanuki('a','b','c')
