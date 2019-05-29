@@ -287,6 +287,20 @@ for i, v in df.iteritems():
 pandas 選択
 """
 df.iloc[0,0] #行列を数字で選択
+df.iat[0,0] #行列を数字で選択 こちらの方が早い
+df.iat[0, df.columns.get_loc('volume')] #行列を数字で選択
+df.loc['Bob', 'age'] #行列を名前で選択
+df.at['Bob', 'age'] #行列を名前で選択
+
+"""
+セルに値を代入
+"""
+df.iat[0, df.columns.get_loc('volume')] = df['出来高'][0]
+
+"""
+列番号を列名から取得する
+"""
+df.columns.get_loc('volume')
 
 """
 pandas 重複　http://ailaby.com/duplicated/
@@ -488,6 +502,8 @@ pip
 #
 ###############################################################################
 from redminelib import Redmine
+
+module_path = os.path.dirname(__file__)
 
 class redmine_tanuki(object):
     '''
