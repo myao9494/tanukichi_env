@@ -242,7 +242,39 @@ df1=df[li]
 pandas plot グラフ　図　可視化
 python matplotlibで見栄えの良い色, グラフを作るTips　https://www.procrasist.com/entry/matplotlib-visual-tips
 """
-df1.plot(subplots=True,figsize=(20,15))
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# SeabornのデフォルトStyleを使用
+sns.set()
+# グラフのサイズを設定
+fig = plt.figure(figsize=(4,4))
+ax = fig.add_subplot(111)
+# DataFrameのPlotを使用する
+df.plot(x='rad', y=['sin','cos'], ax=ax,
+        linestyle='dashed', #線種
+        color=['darkgreen', 'darkblue'], #色
+        linewidth = 0.5 #線の幅
+)
+# TITLEを設定
+ax.set_title("TEST")
+# X軸の範囲
+ax.set_xlim(0,2*np.pi)
+# Y軸の範囲
+ax.set_ylim(-1,1)
+# X軸のTick（目盛）の位置を設定
+ax.set_xticks([0, np.pi, np.pi*2])
+# X軸のTick（目盛）の表記を設定
+ax.set_xticklabels([0, 'π', '2π'])
+# Y軸のTick（目盛）の位置を設定
+ax.set_yticks([-1, -0.5, 0, 0.5, 1])
+# X軸のラベルを設定
+ax.set_xlabel('X [RAD]')
+# Y軸のラベルを設定
+ax.set_ylabel('X [RAD]')
+# グラフ表示
+plt.show()
 
 """
 pandas plot 動くグラフ　図　可視化 https://www.sejuku.net/blog/61788
