@@ -26,3 +26,7 @@ if snippets can not work.
 
 ### Windows Binaries for Python Extension Packages
 https://www.lfd.uci.edu/~gohlke/pythonlibs/
+
+
+
+http://www.takitoshimi.shop/aircraft/aircraft_fea_jp.htm
