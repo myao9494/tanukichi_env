@@ -30,3 +30,4 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 
 http://www.takitoshimi.shop/aircraft/aircraft_fea_jp.htm
+http://www.takitoshimi.shop/aircraft/taig_120616.pdf
