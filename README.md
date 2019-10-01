@@ -31,3 +31,8 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 http://www.takitoshimi.shop/aircraft/aircraft_fea_jp.htm
 http://www.takitoshimi.shop/aircraft/taig_120616.pdf
+
+
+ICZI DisplayPort オス → VGA メス 変換アダプタ〔黒〕最大解像度 1920×1080サポート 金メッキコネクター搭載 PCモニタ対応
+
+HP モニター 27インチ ディスプレイ フルHD 非光沢IPSパネル 高視野角 超薄型 省スペース スリムベゼル HP 27f ブラック （型番：2XN62AA#ABJ）
