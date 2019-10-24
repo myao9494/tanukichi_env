@@ -69,6 +69,21 @@ import plotly.figure_factory as ff
 iplot(ff.create_table(df))
 ```
 
+## テーブル間のdiff,差分
+データを変更した際に、変更箇所のみを抽出したい時に使う  
+【use case】:レッドマインのチケットをcsvで纏めて変更した際に、サーバへ反映するチケットidを抽出する
+
+```diff.py
+import pandas as pd
+df = pd.DataFrame([["リンゴ",1],["オレンジ",2],["いちご",3],["レモン",4],["マンゴー",5]],columns=["id","数量"])
+df_edit = df.copy()
+df_edit.loc[df_edit['id']=="レモン", '数量']=15
+df_diff = pd.concat([df,df_edit])
+df_diff = df_diff.drop_duplicates(keep=False)
+# keep="last"でdf_edit側の値を残す
+df_diff.drop_duplicates(subset="id",keep="last")
+```
+
 ## よく使うグラフ  
 - 散布図
 
@@ -242,6 +257,13 @@ df.rename(columns = {'volume':'Volume'}, inplace=True)
 df.columns.get_loc('volume')
 ```
 
+- 条件を付けて行の削除
+
+```row_drop.py
+df.drop(df.query('age < 25').index)
+```
+
+
 - 列の削除
 
 ```drop.py
@@ -348,8 +370,21 @@ for i, v in df.iteritems():
     print (i, v['a'], v['b'], v['c'])   # v は Series
 ```
 
+## 上下反転(逆順)
+
+```upsidedown.py
+df.iloc[::-1]
+```
+
+## 列の順序を反転
+
+```retsu.py
+df[df.columns[::-1]]
+```
+
 ## セルの選択
 ```select.py
+df.loc[df['項目']=="レモン", '数量'] #項目列レモンの数量列を選択
 df.iloc[0,0] #行列を数字で選択
 df.iat[0,0] #行列を数字で選択 こちらの方が早い
 df.iat[0, df.columns.get_loc('volume')] #行列を数字で選択
@@ -395,7 +430,7 @@ pd.Timestamp(2019,12,15,9,10,1) #2019年12月15日9時10分1秒
 ```time_read.py
 df=pd.read_csv("test_time.csv", header=0, index_col='time', parse_dates=True,na_values=[" ", 0],dtype="float")#読み込み 
 df.index=pd.DatetimeIndex(df.index)#インデックスを時間に指定
-df=df.between_time('9:00', '11:30')#特定の時間のみを取り出す（日時は関係なし）
+ df=df.between_time('9:00', '11:30')#特定の時間のみを取り出す（日時は関係なし）
 df_temp = df[df.index >= pd.Timestamp(2019,1,25)]#2019年1月25日以降のデータを出す
 ```
 
